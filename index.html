@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<head>
+	<style>
+	.container{
+		margin: 0;
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		perspective: 800px;
+	}
+
+
+
+	.black{
+		transform-style: preserve-3d;
+		position: absolute;
+		top: 0;
+		right: 0;
+		left: 0;
+		bottom: 0;
+	}
+	.black div{
+		box-sizing: border-box;
+		position: absolute;
+	}
+	.container1 .middle{
+
+		box-shadow: -20px -20px 60px #eee;
+	}
+	.container2 .middle{
+		border-left: 0;
+		border-top: 0;
+	}
+	.middle{
+		border: 10px solid #ccc;
+		width: 400px;
+		height: 400px;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.top, .bottom, .left, .right{
+		background-color: #fff;
+	}
+	.top, .bottom{
+		left: 0;
+		width: 100vw;
+		height: 50vh;
+	}
+	.top{
+		top: 0;
+		transform: translate(0, -200px);
+	}
+	.bottom{
+		bottom: 0;
+		transform: translate(0, 200px);
+	}
+	.left, .right{
+		top: 0;
+		height: 100vh;
+		width: 50vw;
+	}
+	.left{
+		left: 0;
+		transform: translate(-200px, 0);
+	}
+	.right{
+		right: 0;
+		transform: translate(200px, 0);
+	}
+	.right, .bottom{
+		z-index: 100;
+	}
+
+	.birds{
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 1;
+		margin-top: 15px;
+		margin-left: -10px;
+		transform: translate(-50%, -50%) translateZ(100px);
+	}
+
+
+
+	img{
+		width: 600px;
+	}
+
+
+	</style>
+
+<body>
+
+
+
+
+	<div class="container container1">
+		<div class="black">
+
+			<div class="top"></div>
+			<div class="left"></div>
+			<div class="middle"></div>
+		</div>
+	</div>
+
+	<div class="container">
+		<img class="birds" src="birds.png">
+	</div>
+
+	<div class="container container2">
+		<div class="black">
+			<div class="middle"></div>
+			<div class="bottom"></div>
+			<div class="right"></div>
+		</div>
+	</div>
+
+
+
+	<script>
+	'use strict'
+
+	const frameThreshold = 30
+	const birdThreshold = 5
+
+
+	function process(n, threshold){
+		n = n * 2
+		n = n - 1
+		n = n * threshold
+		return n
+	}
+
+	const frame = document.querySelectorAll('.black')
+	const birds = document.querySelector('.birds')
+	window.addEventListener('mousemove', e => {
+		let x = e.clientX / window.innerWidth
+		x = process(x, frameThreshold)
+		x = x * -1
+
+		let y = e.clientY / window.innerHeight
+		y = process(y, frameThreshold)
+
+
+		frame[0].style.transform = `rotateY(${x}deg) rotateX(${y}deg)`
+		frame[1].style.transform = `rotateY(${x}deg) rotateX(${y}deg)`
+
+		x = e.clientX / window.innerWidth
+		x = process(x, birdThreshold)
+
+		y = e.clientY / window.innerHeight
+		y = process(y, birdThreshold)
+
+
+		y = y * -1
+		x = x * -1
+
+		//x = x * .5
+		//y = y * .5
+
+		//x = x * -2
+		//y = y * -2
+
+
+
+		birds.style.transform = `rotateY(${x}deg) rotateX(${y}deg) translate(-50%, -50%) translateZ(100px)`
+
+	})
+
+
+
+
+
+
+	</script>
+
+
+
+
+
+
+
