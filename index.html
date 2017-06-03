@@ -1,6 +1,18 @@
 <!DOCTYPE html>
-<head>
+<head>\
+
 	<style>
+	body{
+		margin: 0;
+	}
+	.title{
+		position: absolute;
+		transform: rotate(90deg);
+		z-index: 10;
+		top: 0;
+		left: 0;
+		transform-origin: 0 100%;
+	}
 	.container{
 		margin: 0;
 		position: fixed;
@@ -86,6 +98,10 @@
 		transform: translate(-50%, -50%) translateZ(100px);
 	}
 
+	body{
+		height: 200vh;
+	}
+
 
 
 	img{
@@ -99,7 +115,6 @@
 
 
 
-
 	<div class="container container1">
 		<div class="black">
 
@@ -109,9 +124,9 @@
 		</div>
 	</div>
 
-	<div class="container">
+	<section class="container pane">
 		<img class="birds" src="birds.png">
-	</div>
+	</section>
 
 	<div class="container container2">
 		<div class="black">
@@ -126,7 +141,7 @@
 	<script>
 	'use strict'
 
-	const frameThreshold = 35
+	const frameThreshold = 25
 	const birdThreshold = 5
 
 
@@ -174,6 +189,56 @@
 	})
 
 
+
+
+	let scrollTop
+	const panes = document.getElementsByClassName('pane')
+	function loop(){
+
+		const newTop = window.pageYOffset
+		if(newTop !== scrollTop){
+			scrollTop = newTop
+			// Do stuff
+
+
+			// Determine pane and progress
+			const totalProgress = scrollTop / winHeight
+			const pane = Math.floor(totalProgress)
+			const paneProgress = totalProgress - pane
+
+			let target = -200
+			if(pane === 0){
+				let current = target * paneProgress
+				panes[0].style.transform = `translate(${current}px, ${current}px)`
+			}
+
+
+
+
+
+		}
+
+		requestAnimationFrame(loop)
+	}
+	
+
+	let docHeight
+	let winHeight
+	window.addEventListener('resize', resize)
+	function resize(){
+		docHeight = Math.max(
+			document.body.scrollHeight,
+			document.body.offsetHeight,
+			document.documentElement.clientHeight,
+			document.documentElement.scrollHeight,
+			document.documentElement.offsetHeight
+		)
+		winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+	}
+
+
+	resize()
+	loop()
 
 
 
